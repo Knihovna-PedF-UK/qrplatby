@@ -22,7 +22,7 @@
       </fieldset>
       
     </form>
-    <p>QR kód se automaticky aktualizuje při každé změně částky. Pokud nezadáte žádnou částku, může jí uživatel vyplnit sám ve své bankovní aplikaci</p>
+    <p>QR kód se automaticky aktualizuje při každé změně částky a účelu platby. Pokud nezadáte žádnou částku, může jí uživatel vyplnit sám ve své bankovní aplikaci.</p>
 
 
     <div id="qrcode"></div>
@@ -36,7 +36,6 @@
         }
         // pokud není zadanej žádnej komentář, tak zkusíme získat hodnotu radio buttonů
         if(msg == ""){
-          console.log("Zkoušíme radio");
           const radioButtons = document.querySelectorAll('input[name="rcomment"]');
           for (const button of radioButtons) {
             if(button.checked) {
