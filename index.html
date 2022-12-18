@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>QR platby pro Knihovnu PedF UK</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>QR platby pro Knihovnu PedF UK</h1>
+    <form id="formular">
+      <fieldset>
+        <legend>Zde napište placenou částku v Kč:</legend>
+        <input type="text" id="cena" />
+      </fieldset>
+      <fieldset>
+      <legend>Účel platby:</legend>
+      <div><input name="rcomment" checked value="TISK" type="radio" id="tisk"/><label for="tisk">Tisk</label></div>
+      <div><input name="rcomment" value="ZPOZDNE" type="radio" id="zpozdne"/><label for="zpozdne">Zpozdné</label></div>
+      <label>nebo komentář: <input type="text" id="komentar"/></label>
+      </fieldset>
+      
+    </form>
+    <p>QR kód se automaticky aktualizuje při každé změně částky. Pokud nezadáte žádnou částku, může jí uživatel vyplnit sám ve své bankovní aplikaci</p>
+
+
+    <div id="qrcode"></div>
+    <script src="qrcode.min.js"></script>
+    <script type="text/javascript">
+      function make_code(qr_code,cena, msg){
+        // základní short payment řetězec s naším IBAN číslem účtu
+        var qr_string = "SPD*1.0*ACC:CZ0901000001073922010217*";
+        if(cena != ""){ 
+          qr_string += "AM:" + cena + "*CC:CZK*"
+        }
+        // pokud není zadanej žádnej komentář, tak zkusíme získat hodnotu radio buttonů
+        if(msg == ""){
+          console.log("Zkoušíme radio");
+          const radioButtons = document.querySelectorAll('input[name="rcomment"]');
+          for (const button of radioButtons) {
+            if(button.checked) {
+              msg = button.value;
+              break;
+            }
+          }
+        }
+        qr_string += "MSG:"+msg;
+        // znovu vykreslíme QR kód
+        qr_code.clear();
+        qr_code.makeCode(qr_string)
+      }
+      // inicializujeme QR kód, za chvíli ho překreslíme
+      var qr = new QRCode(document.getElementById("qrcode"), "");
+      // aktualizujeme qr kód při každý změně formuláře
+      const formular = document.getElementById("formular");
+      // překreslíme QR kód při každý změně formuláře
+      formular.addEventListener("input", (event) => {
+        let cena = document.getElementById("cena").value;
+        let msg  = document.getElementById("komentar").value;
+        make_code(qr, cena, msg)
+      });
+      // defaultní QR kód bez ceny
+      make_code(qr, "", "")
+    </script>
+  </body>
+</html>
