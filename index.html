@@ -18,7 +18,7 @@
       <legend>Účel platby:</legend>
       <div><input name="rcomment" checked value="TISK" type="radio" id="tisk"/><label for="tisk">Tisk</label></div>
       <div><input name="rcomment" value="ZPOZDNE" type="radio" id="zpozdne"/><label for="zpozdne">Zpozdné</label></div>
-      <label>nebo komentář: <input type="text" id="komentar"/></label>
+      <div><label>nebo komentář: <input type="text" id="komentar"/></label> (velká písmena bez diakritiky)</div>
       </fieldset>
       
     </form>
@@ -30,7 +30,7 @@
     <script type="text/javascript">
       function make_code(qr_code,cena, msg){
         // základní short payment řetězec s naším IBAN číslem účtu
-        var qr_string = "SPD*1.0*ACC:CZ0901000001073922010217*";
+        var qr_string = "SPD*1.0*ACC:CZ0901000001073922010217*NT:E*NTA:knihovna@pedf.cuni.cz*";
         if(cena != ""){ 
           qr_string += "AM:" + cena + "*CC:CZK*"
         }
